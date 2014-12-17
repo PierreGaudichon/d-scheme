@@ -9,3 +9,5 @@ class Expression
 	evaluate: ->
 		throw new Error "Expression#evaluate : not supposed to be fired"
 
+	toString: ->
+		throw new Error "Expression#toString : not supposed to be fired"

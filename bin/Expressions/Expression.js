@@ -15,6 +15,10 @@
       throw new Error("Expression#evaluate : not supposed to be fired");
     };
 
+    Expression.prototype.toString = function() {
+      throw new Error("Expression#toString : not supposed to be fired");
+    };
+
     return Expression;
 
   })();

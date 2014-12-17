@@ -6,7 +6,7 @@
 
   Expression = require("./Expression").Expression;
 
-  module.exports.StandardFunction = Molecule = (function(_super) {
+  module.exports.Molecule = Molecule = (function(_super) {
     __extends(Molecule, _super);
 
     Molecule.prototype.list = [];
@@ -28,6 +28,20 @@
 
     Molecule.prototype.evaluate = function(args, P) {
       return this;
+    };
+
+    Molecule.prototype.toString = function() {
+      var e;
+      return "(" + (((function() {
+        var _i, _len, _ref, _results;
+        _ref = this.list;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          e = _ref[_i];
+          _results.push(e.toString());
+        }
+        return _results;
+      }).call(this)).join(" ")) + ")";
     };
 
     return Molecule;

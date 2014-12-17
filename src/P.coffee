@@ -8,9 +8,11 @@ reduce = (f) ->
 # Define a function from E^k to E
 # E is type
 EkE = (name, type, fun) ->
-	"(#{name} a b ...)":
+	r = {}
+	r["(#{name} a b ...)"] =
 		parameter:
 			"...": type
 		return: type
 
 		fun: reduce fun
+	r

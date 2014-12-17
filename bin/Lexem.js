@@ -2,14 +2,9 @@
 (function() {
   var Lexem;
 
-  Lexem = (function() {
-    function Lexem() {}
-
-    Lexem.prototype.type = "";
-
-    Lexem.prototype.number = 0;
-
+  module.exports.Lexem = Lexem = (function() {
     Lexem.prototype.position = {
+      number: 0,
       lineStart: 0,
       lineEnd: 0,
       columnStart: 0,
@@ -17,6 +12,15 @@
     };
 
     Lexem.prototype.value = "";
+
+    function Lexem(value) {
+      this.value = value;
+    }
+
+    Lexem.prototype.setPosition = function(number, _arg) {
+      var column, line;
+      line = _arg.line, column = _arg.column;
+    };
 
     return Lexem;
 

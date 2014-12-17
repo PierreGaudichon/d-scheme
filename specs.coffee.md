@@ -3,7 +3,6 @@
 Expression
 	Molecule
 	Atom
-	Variable
 	Function
 		StandardFunction
 		CustomFunction
@@ -11,19 +10,20 @@ Expression
 Expression
 	resolve: (P) -> Expression
 	evaluate: ([Expression], P) -> Expression
+	toString: -> String
 
 Molecule
 	constructor: ([Expression] list)
 	resolve
 	evaluate
+	toString
 
 Atom
 	constructor: (String type = "A", (A) value)
 	evaluate
+	resolve
+	toString
 
-Variable
-	constructor: (String name)
-	evaluate
 
 Function
 

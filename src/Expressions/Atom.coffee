@@ -15,3 +15,11 @@ class Atom
 
 
 	evaluate: -> @
+
+	resolve: ->
+		if @type is "Variable"
+			P.context.getOne @name
+		else
+			@
+
+	toString: -> @value

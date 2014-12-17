@@ -1,6 +1,6 @@
 {Expression} = require "./Expression"
 
-module.exports.StandardFunction =
+module.exports.Molecule =
 class Molecule extends Expression
 
 	list: []
@@ -20,5 +20,8 @@ class Molecule extends Expression
 
 
 	evaluate: (args, P) -> @
+
+	toString: ->
+		"(#{(e.toString() for e in @list).join " "})"
 
 

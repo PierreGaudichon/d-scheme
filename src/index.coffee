@@ -1,7 +1,5 @@
+{parse} = require "./Parser"
+{lexe} = require "./Lexer"
 
-lambda = require "./std/lambda"
-
-console.log lambda
-console.log "---"
-for k, v of lambda
-	console.log k, v
+console.log JSON.stringify lexe parse "(+ 4 2)"
+console.log lexe(parse "(+ (* 4 2) 2)").toString()

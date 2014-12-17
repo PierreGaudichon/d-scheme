@@ -18,6 +18,18 @@
       return this;
     };
 
+    Atom.prototype.resolve = function() {
+      if (this.type === "Variable") {
+        return P.context.getOne(this.name);
+      } else {
+        return this;
+      }
+    };
+
+    Atom.prototype.toString = function() {
+      return this.value;
+    };
+
     return Atom;
 
   })();
