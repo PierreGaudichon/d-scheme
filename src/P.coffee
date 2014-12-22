@@ -1,18 +1,22 @@
-_ = require "lodash"
+{Context} = require "./Context"
+{CustomError} = require "./CustomError"
 
-reduce = (f) ->
-	(args, P) ->
-		args = P.getJS args
-		_.reduce args, f
+module.exports.P =
+class P
 
-# Define a function from E^k to E
-# E is type
-EkE = (name, type, fun) ->
-	r = {}
-	r["(#{name} a b ...)"] =
-		parameter:
-			"...": type
-		return: type
+	context: "Context"
+	errors: "Error"
 
-		fun: reduce fun
-	r
+	constructor: (r) ->
+		@context = new Context
+		@errors = new CustomError r
+		@std
+
+	getJS: (expressions) ->
+		for exp in expressions
+			exp.resolve(@).toJS()
+
+	error: (msg, data) ->
+		@errors.log msg, data
+
+

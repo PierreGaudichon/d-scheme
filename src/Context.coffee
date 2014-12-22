@@ -1,4 +1,5 @@
 {Type} = require "./Type"
+{Atom} = require "./Expressions/Atom"
 
 module.exports.Context =
 class Context
@@ -16,15 +17,16 @@ class Context
 		@stack = []
 
 
-	addStd: (d, P) ->
-		if @std[d.name]?
-			P.errors.send "Cant add #{d.name} the std, already exists."
-		else
-			@std[name] = Type.fromStd d
+	# Add in the Std with the `name` and an `Expression`
+	addStd: (name, exp, P) ->
+		if @std[name]?
+			P.error "already std", {name}
+		@std[name] = exp
 
-	define: (name, exp) ->
+	# Add in the globals variables with the `name` and an `Expression`
+	define: (name, exp, P) ->
 		if @globals[name]?
-			P.errors.tell "#{name} in globals will be overwriten."
+			P.error "already global", {name}
 		@globals[name] = exp
 
 	push: (a) ->
@@ -41,5 +43,7 @@ class Context
 			return @globals[name]
 		if @std[name]?
 			return @std[name]
-		P.errors.send "#{name} not find in all declared variables."
+
+		P.error "not found in variables", {name}
+		return Atom.nil()
 

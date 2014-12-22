@@ -2,7 +2,7 @@
 
 
 module.exports.Atom =
-class Atom
+class Atom extends Expression
 
 
 	type: ""
@@ -16,10 +16,14 @@ class Atom
 
 	evaluate: -> @
 
-	resolve: ->
+	resolve: (P) ->
 		if @type is "Variable"
-			P.context.getOne @name
+			P.context.getOne @value, P
 		else
 			@
 
 	toString: -> @value
+
+	toJS: -> @value
+
+	@nil: -> new Atom "Null", "nil"

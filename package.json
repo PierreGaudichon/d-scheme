@@ -1,0 +1,22 @@
+{
+  "name": "d-scheme",
+  "version": "0.0.1",
+  "description": "A non-standart Scheme interpreter.",
+  "main": "index.js",
+  "bin": {
+    "d-scheme": "Context.js"
+  },
+  "scripts": {
+    "test": "nodeunit src/*.test.coffee"
+  },
+  "keywords": [
+    "scheme",
+    "interpreter",
+    "language"
+  ],
+  "author": "PierreGaudichon",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.5.1"
+  }
+}

@@ -10,7 +10,7 @@ class Lexem
 		columnEnd: 0
 	value: ""
 
-	#Whatever -> Lexem
+	# Whatever -> Lexem
 	constructor: (@value) ->
 
 	# int, {int, int} -> void

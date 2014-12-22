@@ -1,5 +1,3 @@
-{Variable} = require "./Variable"
-
 module.exports.Expression =
 class Expression
 
@@ -11,3 +9,6 @@ class Expression
 
 	toString: ->
 		throw new Error "Expression#toString : not supposed to be fired"
+
+	toJS: ->
+		throw new Error "Expression#toJS : not supposed to be fired"

@@ -1,8 +1,12 @@
 {Expression} = require "./Expression"
+{Function} = require "./Function"
+{clone} = require "lodash"
+
 
 module.exports.Molecule =
 class Molecule extends Expression
 
+	type: "Molecule"
 	list: []
 
 	constructor: (list) ->
@@ -10,16 +14,17 @@ class Molecule extends Expression
 
 
 	resolve: (P) ->
-		first = @list.shift().resolve P
-		last = @list
+		first = @list[0].resolve P
+		lasts = @list[1..]
 
 		if first instanceof Function
-			return first.evaluate last, P
+			return first.evaluate lasts, P
 		else
-			P.errors.send "Try to evaluate a non function value."
+			P.error "not function"
 
 
 	evaluate: (args, P) -> @
+
 
 	toString: ->
 		"(#{(e.toString() for e in @list).join " "})"

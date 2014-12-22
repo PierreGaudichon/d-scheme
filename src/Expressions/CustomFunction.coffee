@@ -23,12 +23,14 @@ class CustomFunction extends Function
 			a[param] = args[i]
 		# Add the new variables to the context, by adding a new level to
 		# the context
-		p.context.push a
+		P.context.push a
 		# get the value of the function
 		ret = @body.resolve P
 		# remove the layer we just added to the context
 		P.context.pop()
 		return ret
+
+
 
 
 

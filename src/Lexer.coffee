@@ -1,5 +1,7 @@
 {Molecule} = require "./Expressions/Molecule"
+{Atom} = require "./Expressions/Atom"
 {Type} = require "./Type"
+_ = require "lodash"
 
 
 module.exports.lexe = (list) ->
@@ -11,7 +13,8 @@ class Lexer
 	tree: []
 	lexems: []
 
-	constructor: (@lexems) ->
+	constructor: (lexems) ->
+		@lexems = _.clone lexems, true
 		@tree = []
 
 
@@ -24,6 +27,7 @@ class Lexer
 	out: ->
 		@tree
 
+
 	# Delete the first lexem from the list and add id into the tree
 	# -> {Expression}
 	createMolecule: ->
@@ -35,20 +39,11 @@ class Lexer
 				exp = @createMolecule()
 				ret.push exp
 			else if lexem.value is ")"
+				if ret.length is 0
+					return Atom.nil()
 				return new Molecule ret
 			else
 				atom = Type.infereFromLexem lexem
 				ret.push atom
 
-		console.log "not touch"
-
-
-###
-
-(* (+ 2 4) (- 1 2))
-s = []
-t = []
-
-
-
-###
+		throw new Error "Not supposed th be touched."

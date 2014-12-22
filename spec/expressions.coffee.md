@@ -11,6 +11,7 @@ Expression
 	resolve: (P) -> Expression
 	evaluate: ([Expression], P) -> Expression
 	toString: -> String
+	toJS: -> A
 
 Molecule
 	constructor: ([Expression] list)
@@ -23,15 +24,14 @@ Atom
 	evaluate
 	resolve
 	toString
+	@nil: -> Atom
 
 
 Function
 
 StandardFunction
 	constructor: ({
-		parameters [String],
-		return String
-		fun: Function
+		ways: Hash
 	})
 	evaluate
 
@@ -40,27 +40,4 @@ CustomFunction
 	evaluate
 
 
-P
-	context: Context
-	errors: Error
-	getJS: ([Expressions]) -> jsValue | error
 
-
-Context
-	push: ({name: Expression}) -> void
-	pop: -> void
-	getOne: (String name, P) -> Expression
-
-	constructor: ->
-	addStd: (Hash d, P) -> void
-	define: (String name, Expression) -> void
-
-
-
-Type
-	@fromStd
-	@Boolean | @String ...
-
-Error
-	send (blocking)
-	tell (non blocking, warning)

@@ -9,3 +9,11 @@ parameter:
 	0: "Variable"
 	1:
 	"..." le reste
+
+
+export function
+	args[0] is a hash
+		Atom
+		CustomFunction
+		...
+		Type
