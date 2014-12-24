@@ -2,11 +2,11 @@
 
 module.exports = (t, f) ->
 	(n, {i, o}) ->
-		name = "Tio -> #{t}::#{n}"
+		name = ""
 		fi = f i
-		if isEqual fi, o
-			console.log "#{name} -> ok"
-		else
-			console.log "#{name} -> fail"
-			console.log "	calculated : #{JSON.stringify fi}"
-			console.log "	expected   : #{JSON.stringify o}"
+		ok = isEqual fi, o
+
+		console.log "#{if ok then "(ok)"else "(!)"} #{t}::#{n}"
+		unless ok
+			console.log "		calculated : #{JSON.stringify fi}"
+			console.log "		expected   : #{JSON.stringify o}"

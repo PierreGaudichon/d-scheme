@@ -7,5 +7,5 @@ module.exports =
 		"(+ 1 2 3 4 56 7 8 9)": "90"
 		"(+ (+ 1 2) 3)": "6"
 
-	ways: ({EkE}) ->
-		EkE "+", "Integer", (a, b) -> a + b
+	ways: ({EkE, Integer}) ->
+		EkE "+", Integer, (a, b) -> a + b

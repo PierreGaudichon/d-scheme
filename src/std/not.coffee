@@ -4,12 +4,14 @@ module.exports =
 		"(not true)": "false"
 		"(not false)": "true"
 
-	ways: ->
+	ways: ({Boolean})->
 		"(not a)":
-			parameter: 0: "Boolean"
-			return: "Boolean"
-			fun: (args, P) ->
-				not a
+			parameters: 0: Boolean
+			return: Boolean
+			resolve: true
+
+			fun: (ret, [a], P) ->
+				ret.init not a.toJS()
 
 
 

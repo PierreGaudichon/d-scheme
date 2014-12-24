@@ -1,5 +1,7 @@
-{Context} = require "./Context"
+# {Context} = require "./Context"
+{Type} = require "./Type"
 {CustomError} = require "./CustomError"
+
 
 module.exports.P =
 class P
@@ -8,8 +10,9 @@ class P
 	errors: "Error"
 
 	constructor: (r) ->
-		@context = new Context
+		#@context = new Context
 		@errors = new CustomError r
+		@Type = Type
 		@std
 
 	getJS: (expressions) ->

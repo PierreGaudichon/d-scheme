@@ -1,34 +1,37 @@
+{cl} = require "./../cl"
+
 module.exports =
 
 	desc: "The function which creates functions."
 	test:
-		"(lambda (x) x)": "[Function]"
+		"(lambda (x) x)": "(lambda (x) x)"
 		"((lambda (x) x) 0)": "0"
+		"((lambda (x) (* 2 x)) 2)": "4"
 		"((lambda x (* 2 x)) 2)": "4"
 
-	ways: ({CustomFunction}) ->
+	ways: ({CustomFunction, Variable, Expression}) ->
 		"(lambda (x) x)":
 			parameters:
-				0: "...": "Variable"
-				1: "Expression"
-			return: "Function"
+				0: "...": Variable
+				1: Expression
+			return: CustomFunction
+			resolve: false
 
-			fun: (args, P) ->
+			fun: (ret, args, P) ->
 				params = []
-				console.log args
 				for v in args[0].list
-					params.push v.value
+					params.push v.name
 				body = args[1]
-				new CustomFunction params, body
+				ret.init params, body
 
 
 		"(lambda x x)":
 			parameters:
-				0: "Variable"
-				1: "Expression"
-			return: "Function"
+				0: Variable
+				1: Expression
+			return: CustomFunction
 
-			fun: (args, P) ->
-				params = [args[0].value]
+			fun: (ret, args, P) ->
+				params = [args[0].name]
 				body = args[1]
-				new CustomFunction params, body
+				ret.init params, body

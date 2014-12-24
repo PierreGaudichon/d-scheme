@@ -1,33 +1,35 @@
 {P: Pklass} = require "./P"
 
-module.exports.interprete = (tree, P) ->
-	new Interpreter(tree).resolve().out()
-
 
 module.exports.Interpreter=
 class Interpreter
 
-	@tree: []
+	@root: []
 	@values: []
 
 	# Creates the interpreter with some Expressions
-	# [Expression] -> Interpreter
-	constructor: (tree) ->
-		@tree = tree
-		@values = []
+	# Root -> Interpreter
+	constructor: (root) ->
+		@root = root
 		@P = new Pklass "interprete"
 
 
 	# Return the values interpreted.
 	# -> [Expression]
-	out: -> @values
+	out: -> @root
 
 	# Resolve all the tree.
 	resolve: ->
-		for exp in @tree
-			@values.push exp.resolve @P
+		@root = @root.resolve @P
+		#@root.attach @context
 		return @
 
 	toString: ->
-		#console.log @values
-		(v.toString() for v in @values).join " ; "
+		@root.toString()
+
+	define: (name, value) ->
+		@root.define name, value
+
+
+
+

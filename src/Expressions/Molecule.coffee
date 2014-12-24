@@ -1,32 +1,35 @@
 {Expression} = require "./Expression"
-{Function} = require "./Function"
-{clone} = require "lodash"
+{SFunction} = require "./SFunction"
+{Nil} = require "./Nil"
+{cl} = require "./../cl"
 
 
 module.exports.Molecule =
 class Molecule extends Expression
 
-	type: "Molecule"
 	list: []
 
-	constructor: (list) ->
-		@list = list
+
+	init: (@list) ->
+		@
 
 
 	resolve: (P) ->
 		first = @list[0].resolve P
 		lasts = @list[1..]
 
-		if first instanceof Function
-			return first.evaluate lasts, P
+		if first instanceof SFunction
+			evaluated = first.evaluate lasts, P
+			evaluated.attach @context
+			return evaluated
+		if first instanceof Nil
+			return first.attach @context
 		else
 			P.error "not function"
-
-
-	evaluate: (args, P) -> @
+			return new Nil @parent
 
 
 	toString: ->
 		"(#{(e.toString() for e in @list).join " "})"
 
-
+	toJSON: -> {exp: "Molecule", list: (exp.toJSON() for exp in @list)}

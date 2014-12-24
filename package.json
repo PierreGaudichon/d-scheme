@@ -17,6 +17,7 @@
   "author": "PierreGaudichon",
   "license": "MIT",
   "dependencies": {
-    "commander": "^2.5.1"
+    "commander": "^2.5.1",
+    "lodash": "^2.4.1"
   }
 }

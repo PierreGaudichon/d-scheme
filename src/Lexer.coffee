@@ -1,49 +1,50 @@
 {Molecule} = require "./Expressions/Molecule"
 {Atom} = require "./Expressions/Atom"
+{Root} = require "./Expressions/Root"
 {Type} = require "./Type"
 _ = require "lodash"
 
 
-module.exports.lexe = (list) ->
-	new Lexer(list).create().out()
 
 module.exports.Lexer =
 class Lexer
 
-	tree: []
+	root: "Root"
 	lexems: []
 
 	constructor: (lexems) ->
 		@lexems = _.clone lexems, true
-		@tree = []
+		@root = new Root null
+		@root.init()
 
 
-	create: ->
+	lexe: ->
 		while @lexems.length > 0
 			if @lexems.shift().value is "("
-				@tree.push @createMolecule()
+				@root.list.push @createMolecule @root
 		return @
 
 	out: ->
-		@tree
+		@root
 
 
-	# Delete the first lexem from the list and add id into the tree
+	# Delete the first lexem from the list and add id into the root
 	# -> {Expression}
-	createMolecule: ->
-		ret = []
+	createMolecule: (parent) ->
+		ret = new Molecule parent
+		ret.init []
 
 		while @lexems.length > 0
 			lexem = @lexems.shift()
 			if lexem.value is "("
-				exp = @createMolecule()
-				ret.push exp
+				exp = @createMolecule ret
+				ret.list.push exp
 			else if lexem.value is ")"
-				if ret.length is 0
-					return Atom.nil()
-				return new Molecule ret
+				if ret.list.length is 0
+					return new Nil parent
+				return ret
 			else
-				atom = Type.infereFromLexem lexem
-				ret.push atom
+				atom = Type.infereFromLexem ret, lexem
+				ret.list.push atom
 
-		throw new Error "Not supposed th be touched."
+		throw new Error "Not supposed to be touched."

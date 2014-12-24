@@ -1,18 +1,39 @@
 {Atom} = require "./Expressions/Atom"
+{Molecule} = require "./Expressions/Molecule"
+{Variable} = require "./Expressions/Variable"
+{Integer} = require "./Expressions/Integer"
+{Real} = require "./Expressions/Real"
 {reduce, isPlainObject} = require "lodash"
+
+
+req = [
+	"Atom",
+	"Boolean",
+	"CustomFunction",
+	"Expression",
+	"Integer",
+	"Molecule",
+	"Nil",
+	"Pair",
+	"Real",
+	"Root",
+	"SFunction",
+	"StandardFunction",
+	"Value",
+	"Variable",
+]
+
+
+all = {}
+for n in req
+	all[n] = require("./Expressions/#{n}")[n]
+
 
 
 module.exports.Type =
 class Type
 
-
-	@types: [
-		"Integer", "Real",
-		"Boolean", "Null"
-		#"String", "Char",
-		"Variable",
-
-	]
+	@all: -> all
 
 	@boolean:
 		true: ["true", "#t", "#F", "True", "TRUE"]
@@ -22,7 +43,7 @@ class Type
 		Integer: (s) -> /^\d+$/.test s
 		Real: (s) -> /^\d+\.\d+$/.test s
 		Boolean: (s) -> s in Type.boolean.true.concat Type.boolean.false
-		Null: (s) -> s in ["null", "nil"]
+		Nil: (s) -> s in ["null", "nil"]
 		Variable: (s) -> true
 
 	@jsValues:
@@ -32,46 +53,48 @@ class Type
 		Null: (s) -> s
 		Variable: (s) -> s
 
+	@getConstructorName: (s) ->
+		for name, test of Type.tests
+			if test s
+				return name
 
 
 	# Compute the type of the variable from the given lexem
-	# Lexem -> Atom
-	@infereFromLexem: (l) ->
-		#new Atom "TODO", l.value
+	# Lexem -> Atom (Value | Variable | Nil)
+	@infereFromLexem: (parent, l) ->
 		value = l.value
-		type = (type for type, test of Type.tests when test value)[0]
-		jsValue = Type.jsValues[type] value
-		return new Atom type, jsValue
-
+		constr = Type.getConstructorName value
+		ret = new all[constr](parent)
+		jsValue = Type.jsValues[constr] value
+		ret.init jsValue
+		#console.log ret.toJSON()
+		return ret
 
 	# Compute the atom representation from a type and a value
 	# String, JsObject -> Expression (Atom)
-	@fromJS: (type, value) ->
-		return new Atom type, value
+	#@fromJS: (type, value) ->
+	#	new all[type]()
+	#	return new Atom type, value
 
 
 	# Compute the JS value of the atom, based on it's type
 	# Atom -> A
-	@toJS: (atom) ->
-		throw new Error "TODO"
+	#@toJS: (atom) ->
+	#	atom.toJS()
 
 
 	# Tell if the got type if an instance of expected type.
-	# Use inherance
-	#	Expression
-	# 		Atom
-	# 			Boolean
 	# String, String -> Boolean
 	# TODO : Molecule inside with plain object (see std/lambda l.6)
+
 	@isInstanceof: (expected, got) ->
-		bools = [
-			expected is got
-			expected in ["Expression"]
-			got in ["Molecule", "Expression"]
-			got in Type.types and expected is "Atom"
-			got is "Molecule" and isPlainObject expected
-		]
-		console.log {expected, got}
-		console.log bools
-		console.log reduce bools, (a, b) -> a or b
-		return reduce bools, (a, b) -> a or b
+		#console.log "Type#isInstanceof"
+		#console.log expected
+		#console.log got
+		if (isPlainObject expected)
+			return (got instanceof Molecule)
+		else if (got instanceof Molecule) or (got instanceof Variable)
+			return true
+		else if (got instanceof Real) and (expected instanceof Integer)
+		else
+			return (got instanceof expected)

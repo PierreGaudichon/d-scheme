@@ -11,3 +11,12 @@ commander
 
 
 
+
+###
+
+parse str,
+	format: "json" | "raw" | "string"
+
+
+
+###

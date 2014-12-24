@@ -4,5 +4,5 @@ module.exports =
 		"(and true false)": "false"
 		"(and true true)": "true"
 
-	ways: ({EkE}) ->
-		EkE "and", "Boolean", (a, b) -> a and b
+	ways: ({EkE, Boolean}) ->
+		EkE "and", Boolean, (a, b) -> a and b

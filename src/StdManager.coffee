@@ -2,13 +2,7 @@ glob = require "glob"
 {basename, join, dirname, relative} = require "path"
 _ = require "lodash"
 
-{Atom} = require "./Expressions/Atom"
-{CustomFunction} = require "./Expressions/CustomFunction"
-{Expression} = require "./Expressions/Expression"
-{Function} = require "./Expressions/Function"
-{Molecule} = require "./Expressions/Molecule"
 {StandardFunction} = require "./Expressions/StandardFunction"
-
 {Type} = require "./Type"
 
 
@@ -21,20 +15,14 @@ EkE = (name, type, fun) ->
 		parameters:
 			"...": type
 		return: type
+		resolve: true
 
-		fun: (args, P) ->
+		fun: (ret, args, P) ->
 			jsArgs = P.getJS args
-			_.reduce jsArgs, fun
+			ret.init _.reduce jsArgs, fun
 	return r
 
 
-feeding = {
-	Expression, Function
-	CustomFunction, StandardFunction,
-	Atom, Molecule
-	Type
-	EkE
-}
 
 
 module.exports.StdManager =
@@ -46,43 +34,8 @@ class StdManager
 	constructor: ->
 		@all = {}
 
-
-	# Add an Atom from Std by
-	# - it's name
-	# - the function or object stored in the file.
-	# - the programm, where the context is.
-	feed: (name, ways, P) ->
-		if _.isFunction ways
-			@addFunction name, ways(feeding), P
-		else if ways.type? and ways.value?
-			@addConstant name, ways, P
-		else
-			P.error "std file"
-
-
-	addToContext: (P) ->
-		for fold, content of @all
-			for name, req of content
-				@feed name, req.ways, P
-
-
-	test: ->
-
-	generateDoc: ->
-
-
-
-	# Add a constant, the file return a {type, value}.
-	addConstant: (name, {type, value}, P) ->
-		P.context.addStd name, Type.fromJS type, value
-
-
-	# Add a function, the file return
-	# {way: {parameter, return, fun(args, P)}}
-	addFunction: (name, ways, P) ->
-		P.context.addStd name, new StandardFunction ways
-
-
+	# Add all the content of the files under the `path`
+	# String -> void
 	folder: (path) ->
 		files = glob.sync path
 		dir = dirname path
@@ -96,3 +49,57 @@ class StdManager
 				fold[basename f] = require f
 		@all[dir] = fold
 		return @
+
+
+	each: (fun) ->
+		for fold, content of @all
+			for name, req of content
+				fun name, req
+
+
+
+	# Add an Atom from Std by
+	# - it's name
+	# - the function or object stored in the file.
+	# - the programm, where the context is.
+	addToContext: (root) ->
+		feeding = _.extend Type.all(), {EkE}
+		@each (name, req) =>
+			ways = req.ways
+			if _.isFunction ways
+				@addFunction name, ways(feeding), root
+			else if ways.type? and ways.value?
+				@addConstant name, ways, root
+			else
+				P.error "std file"
+
+
+	# Add a constant, the file return a {type, value}.
+	addConstant: (name, {type, value}, root) ->
+		#console.log Type.all()[type]
+		constr = Type.all()[type]
+		atom = new constr(root)
+		atom.init value
+		root.define name, atom
+
+
+	# Add a function, the file return
+	# {way: {parameter, return, fun(args, P)}}
+	addFunction: (name, ways, root) ->
+		f = new StandardFunction(root)
+		f.init name, ways
+		root.define name, f
+
+
+	test: ->
+		@each (name, req) =>
+
+
+	generateDoc: ->
+
+
+
+
+
+
+

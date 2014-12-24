@@ -1,14 +1,48 @@
+
 module.exports.Expression =
 class Expression
 
-	resolve: (P) ->
-		throw new Error "Expression#resolve : not supposed to be fired"
+	context: {}
+	parent: {}
 
-	evaluate: ->
-		throw new Error "Expression#evaluate : not supposed to be fired"
+	constructor: (parent) ->
+		@parent = parent
+		@context = {}
 
-	toString: ->
-		throw new Error "Expression#toString : not supposed to be fired"
+	init: (v) ->
+		v.attach @context
+		return v
 
-	toJS: ->
-		throw new Error "Expression#toJS : not supposed to be fired"
+
+	attach: (a) ->
+		for name, value of a
+			@context[name] = value
+		return @
+
+
+	define: (name, value) ->
+		@parent.define name, value
+		return @
+
+
+	getVariable: (name, P) ->
+		if @context[name]?
+			@context[name]
+		else
+			@parent.getVariable name, P
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

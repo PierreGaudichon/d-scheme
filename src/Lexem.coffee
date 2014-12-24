@@ -15,3 +15,5 @@ class Lexem
 
 	# int, {int, int} -> void
 	setPosition: (number, {line, column}) ->
+
+	toJSON: -> {class: "Lexem", @value}

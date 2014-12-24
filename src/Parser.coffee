@@ -1,10 +1,6 @@
 {Lexem} = require "./Lexem"
 
 
-module.exports.parse = (str) ->
-	new Parser(str).parse().out()
-
-
 module.exports.Parser =
 class Parser
 

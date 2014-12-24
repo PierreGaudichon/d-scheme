@@ -1,49 +1,61 @@
-{Function} = require "./Function"
-{Type} = require "./../Type"
-{Atom} = require "./Atom"
-{Expression} = require "./Expression"
+{SFunction} = require "./SFunction"
+{Nil} = require "./Nil"
+{cl} = require "./../cl"
 
 
 module.exports.StandardFunction =
-class StandardFunction extends Function
+class StandardFunction extends SFunction
 
-	parameters: []
-	return: ""
-	fun: ->
+	ways: {}
 
-	constructor: (@ways) ->
+	init: (@name, @ways) -> @
 
 
 	evaluate: (args, P) ->
+		# We iterate through all the possible ways of calling that function.
 		# "(lambda (x) x) : {parameters, return, fun}"
 		for doc, way of @ways
-			console.log doc
-			# parameters: {0: "Variable", "...": "Expression"}
 			ok = true
 			params = []
 
-
+			# We check that for each arg there is a corresponding type in
+			# way.parameter.
 			for arg, i in args
+				# If there is a parameter with that index
 				if way.parameters[i]?
 					params.push {got: arg, expected: way.parameters[i]}
+				# If there is the "..." parameter
 				else if way.parameters["..."]?
 					params.push {got: arg, expected: way.parameters["..."]}
 				else
 					ok = false
-					P.error "wrong arguments"
 
+			# Now, we check if there are no more arguments than intended.
+			if way.parameters[args.length]?
+				ok = false
+
+			# And we check if all parametes match the function definition
 			for {got, expected} in params
-				unless Type.isInstanceof expected, got.type
+				unless P.Type.isInstanceof expected, got
 					ok = false
-					P.error "wrong arguments"
+
+			# We resolve all parameters if necessary.
+			#console.log way.resolve
+			if way.resolve
+				args = (arg.attach(@context).resolve P for arg in args)
 
 			if ok
-				executed = way.fun args, P
-				if executed instanceof Expression
-					return executed
-				return new Atom way.return, executed
+				ret = new way.return(@parent)
+				ret.attach @context
+				ret = way.fun ret, args, P
+				return ret
 
 
+		P.error "wrong arguments"
+		return new Nil @parent
 
 
+	toJSON: ->
+		{exp: "StandardFunction", ways: (doc for doc, w of @ways)}
 
+	toString: -> Object.keys(@ways)[0]

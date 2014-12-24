@@ -1,36 +1,30 @@
-{Function} = require "./Function"
-{Type} = require "./../Type"
+{SFunction} = require "./SFunction"
 
 module.exports.CustomFunction =
-class CustomFunction extends Function
+class CustomFunction extends SFunction
 
-	# A list of Strings representing the names of the parameters
-	parameters: []
-	# the body of the function, will be resolved when we have the arguments
-	# ready
+	params: []
 	body: "Expression"
 
-
-	constructor: (params, body) ->
-		@parameters = params
-		@body = body
+	init: (@params, @body) -> @
 
 
 	evaluate: (args, P) ->
-		# create the hash of Expressions to add to the context
-		a = {}
-		for param, i in @parameters
-			a[param] = args[i]
-		# Add the new variables to the context, by adding a new level to
-		# the context
-		P.context.push a
-		# get the value of the function
-		ret = @body.resolve P
-		# remove the layer we just added to the context
-		P.context.pop()
-		return ret
+		# Check if the params array and the args array have the same length
+		if @params.length isnt args.length
+			#console.log "CustomFunction#evaluate :: length"
+			P.error "wrong arguments"
 
+		# Creates the hash of all arguments
+		p = {}
+		for param, i in @params
+			p[param] = args[i].resolve P
+		# Put thoses arguments into the body of the function
+		@body.attach(@context).attach(p)
+		# resolve that body
+		return @body.resolve P
 
+	toJSON: -> {exp: "CustomFunction", @params, body: @body.toJSON()}
 
-
+	toString: -> "(lambda (#{@params.join " "}) #{@body.toString()})"
 
