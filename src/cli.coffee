@@ -1,22 +1,47 @@
+fs = require "fs"
 commander = require "commander"
+{Scheme} = require "./Scheme"
+
 
 commander
-	.version require("package.json").version
+	.version require("./../package.json").version
+	.usage "[options] files"
 	.option "-i --interprete", "Interprete the file."
 	.option "-p --parse", "Parse the file."
 	.option "-l --lexe", "Lexe the  file."
-	.option "-o --out", "Set the output file (otherwise stdout)."
+	.option "-o --out [file]", "Set the output file."
+	.option "-d --documentation", "Create the documentation dor the standard library."
 	.parse process.argv
 
 
+out = ""
+programm = new Scheme()
+programm.std "bin/std/*"
 
+if commander.documentation
+	out = programm.doc().out "documentation", format: "md"
 
+else if commander.args.length isnt 0
+	for filePath in commander.args
+		out = ";; d-scheme ;; #{filePath}\n"
 
-###
+		content = fs.readFileSync filePath, encoding: "utf-8"
+		programm.in "str", content
 
-parse str,
-	format: "json" | "raw" | "string"
+		if commander.interprete
+			out += programm.parse().lexe().interprete()
+				.out "computed", format: "str"
+		else if commander.lexe
+			out += programm.parse().lexe().out "root", format: "str"
 
+		else if commander.parse
+			out += programm.parse().out "lexems", format: "str"
 
+		out += "\n"
 
-###
+if commander.out
+	fs.writeFile commander.out, out, (err) ->
+		if err then throw err
+
+else
+	console.log out

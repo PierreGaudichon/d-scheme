@@ -3,6 +3,7 @@
 {Lexer} = require "./Lexer"
 {Interpreter} = require "./Interpreter"
 {StdManager} = require "./StdManager"
+{reporter} = require "./reporter"
 
 
 
@@ -15,6 +16,7 @@ class Scheme
 	root: "Root"
 	computed: "Root"
 	tests: []
+	documentation: []
 
 
 	constructor: ->
@@ -24,7 +26,7 @@ class Scheme
 		@root = null
 		@computed = null
 		@tests = []
-
+		@documentation = []
 
 	in: (type, value) ->
 		@[type] = value
@@ -34,6 +36,8 @@ class Scheme
 	out: (type, {format}) ->
 		o = @[type]
 		if format is "json"
+			if type is "lexems"
+				return (i.toJSON() for i in o)
 			return o.toJSON()
 		else if format is "raw"
 			return o
@@ -44,8 +48,11 @@ class Scheme
 					check = if ok then "ok" else "!"
 					ret.push "(#{check}) Scheme#test => #{name} : #{test}"
 				return ret
-			else
-				return o.toString()
+			return o.toString()
+		else if format is "md"
+			if type is "documentation"
+				return reporter.documentation o
+			return o.toString()
 
 
 
@@ -72,6 +79,7 @@ class Scheme
 
 	test: ->
 		@manager.each (name, req) =>
+
 			for test, result of req.test
 				computed = @in("str", test)
 					.parse()
@@ -86,4 +94,11 @@ class Scheme
 					ok: isEqual result, computed
 		return @
 
+	doc: ->
+		@manager.each (name, req) =>
+			req.name = name
+			@documentation.push req
+		return @
 
+	cheatsheet: ->
+		return @

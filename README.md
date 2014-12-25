@@ -1,61 +1,29 @@
-Organisation
-------------
 
-### Parser
+D-Scheme
+========
 
-String (scheme programm) -> List of Lexems
 
-### Lexer
+TODO
+----
 
-List of Lexems -> Expression
+ - `Exceptions`
+ - `cadr`
+ - `isType?`
 
-### Interpreter
+ - String
+ - Comments
 
-Expression -> Value
+ - Proper debugging
+   - store line number for errors
+   - display error position as Node or Coffee
 
-Types
------
+Parser -> negatif numbers
 
- - Integer
- - Real
- - Boolean
- - Function
- - Variable
- - Unset
 
-Classes
--------
 
-### Context
 
- - [[Atom]] stack
- - [Atom] topLevel
- - {name: Atom} getAll([String] names)
- - Atom getOne(String name)
 
-### Lexem
 
- - type
- - number
- - position
- - value
 
-types: {open, close, atom}
 
-### Expression
-
-### Molecul
-
- - open
- - list
- - close
- - value
- - evaluated
-
-### Atom
-
- - lexem
- - value
- - evaluated
- - type
 

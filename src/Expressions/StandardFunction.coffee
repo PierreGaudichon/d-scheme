@@ -7,8 +7,11 @@ module.exports.StandardFunction =
 class StandardFunction extends SFunction
 
 	ways: {}
+	special: false
 
-	init: (@name, @ways) -> @
+	init: (@name, @ways) ->
+		#@special = false
+		@
 
 
 	evaluate: (args, P) ->
@@ -49,7 +52,6 @@ class StandardFunction extends SFunction
 				ret.attach @context
 				ret = way.fun ret, args, P
 				return ret
-
 
 		P.error "wrong arguments"
 		return new Nil @parent

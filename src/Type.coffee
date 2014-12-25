@@ -3,12 +3,13 @@
 {Variable} = require "./Expressions/Variable"
 {Integer} = require "./Expressions/Integer"
 {Real} = require "./Expressions/Real"
-{reduce, isPlainObject} = require "lodash"
+{reduce, isPlainObject, isEqual, identity: id} = require "lodash"
 
 
 req = [
 	"Atom",
 	"Boolean",
+	"Char",
 	"CustomFunction",
 	"Expression",
 	"Integer",
@@ -19,6 +20,7 @@ req = [
 	"Root",
 	"SFunction",
 	"StandardFunction",
+	"String"
 	"Value",
 	"Variable",
 ]
@@ -40,18 +42,22 @@ class Type
 		false: ["false", "#f", "#T", "False", "FALSE"]
 
 	@tests:
-		Integer: (s) -> /^\d+$/.test s
-		Real: (s) -> /^\d+\.\d+$/.test s
+		Integer: (s) -> /^-*\d+$/.test s
+		Real: (s) -> /^-*\d+\.\d+$/.test s
 		Boolean: (s) -> s in Type.boolean.true.concat Type.boolean.false
 		Nil: (s) -> s in ["null", "nil"]
+		String: (s) -> s[0] == s[s.length-1] == "\""
+		Char: (s) -> (s[0..1] is "#\\") and (s.length is 3)
 		Variable: (s) -> true
 
 	@jsValues:
 		Integer: (s) -> parseInt s, 10
 		Real: (s) -> parseFloat s
 		Boolean: (s) -> s in Type.boolean.true
-		Null: (s) -> s
-		Variable: (s) -> s
+		Nil: id
+		String: id
+		Char: id
+		Variable: id
 
 	@getConstructorName: (s) ->
 		for name, test of Type.tests
@@ -89,12 +95,13 @@ class Type
 
 	@isInstanceof: (expected, got) ->
 		#console.log "Type#isInstanceof"
-		#console.log expected
-		#console.log got
+		#console.log expected instanceof Real
+		#console.log got instanceof Integer
 		if (isPlainObject expected)
 			return (got instanceof Molecule)
 		else if (got instanceof Molecule) or (got instanceof Variable)
 			return true
-		else if (got instanceof Real) and (expected instanceof Integer)
+		else if (got instanceof Integer) and (isEqual expected, Real)
+			return true
 		else
 			return (got instanceof expected)

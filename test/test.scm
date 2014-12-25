@@ -5,4 +5,4 @@
 
 (define mult2 (csum 2))
 
-(mult2 3) ;; -> 6
+(mult2 3)

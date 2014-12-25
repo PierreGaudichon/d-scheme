@@ -37,6 +37,7 @@ class StdManager
 	# Add all the content of the files under the `path`
 	# String -> void
 	folder: (path) ->
+		feeding = _.extend Type.all(), {EkE}
 		files = glob.sync path
 		dir = dirname path
 		fold = {}
@@ -46,7 +47,12 @@ class StdManager
 			.map (f) -> relative "/", f
 			.map (f) -> join "/", dirname(f), basename(f, ".js")
 			.map (f) ->
-				fold[basename f] = require f
+				name = basename f
+				req = require f
+				if _.isFunction req.ways
+					req.ways = req.ways feeding
+				if name[0] isnt "_"
+					fold[name] = req
 		@all[dir] = fold
 		return @
 
@@ -54,6 +60,7 @@ class StdManager
 	each: (fun) ->
 		for fold, content of @all
 			for name, req of content
+				name = req.name if req.name?
 				fun name, req
 
 
@@ -63,16 +70,11 @@ class StdManager
 	# - the function or object stored in the file.
 	# - the programm, where the context is.
 	addToContext: (root) ->
-		feeding = _.extend Type.all(), {EkE}
 		@each (name, req) =>
-			ways = req.ways
-			if _.isFunction ways
-				@addFunction name, ways(feeding), root
-			else if ways.type? and ways.value?
-				@addConstant name, ways, root
+			if req.ways.type? and req.ways.value?
+				@addConstant name, req.ways, root
 			else
-				P.error "std file"
-
+				@addFunction name, req.ways, root
 
 	# Add a constant, the file return a {type, value}.
 	addConstant: (name, {type, value}, root) ->

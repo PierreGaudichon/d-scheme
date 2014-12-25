@@ -1,6 +1,7 @@
 {Molecule} = require "./Expressions/Molecule"
 {Atom} = require "./Expressions/Atom"
 {Root} = require "./Expressions/Root"
+{Nil} = require "./Expressions/Nil"
 {Type} = require "./Type"
 _ = require "lodash"
 
@@ -20,8 +21,11 @@ class Lexer
 
 	lexe: ->
 		while @lexems.length > 0
-			if @lexems.shift().value is "("
+			lexem = @lexems.shift()
+			if lexem.value is "("
 				@root.list.push @createMolecule @root
+			else
+				@root.list.push Type.infereFromLexem @root, lexem
 		return @
 
 	out: ->
@@ -47,4 +51,7 @@ class Lexer
 				atom = Type.infereFromLexem ret, lexem
 				ret.list.push atom
 
-		throw new Error "Not supposed to be touched."
+		# TODO : improve this
+		if ret.list.length is 0
+			return new Nil parent
+		return ret

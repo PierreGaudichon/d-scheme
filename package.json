@@ -4,10 +4,10 @@
   "description": "A non-standart Scheme interpreter.",
   "main": "index.js",
   "bin": {
-    "d-scheme": "Context.js"
+    "dscheme": "bin/dscheme"
   },
   "scripts": {
-    "test": "nodeunit src/*.test.coffee"
+    "install": "sh build_system.sh"
   },
   "keywords": [
     "scheme",
@@ -17,6 +17,7 @@
   "author": "PierreGaudichon",
   "license": "MIT",
   "dependencies": {
+    "async": "^0.9.0",
     "commander": "^2.5.1",
     "lodash": "^2.4.1"
   }

@@ -5,6 +5,7 @@ module.exports =
 	test:
 		"(car (cons 1 2))": "1"
 		"(car (car (cons (cons 1 2) 3)))": "1"
+		"(car (cons (cons 1 2) 3))": "(1 . 2)"
 
 	ways: ({Expression, Pair}) ->
 		"(car a)":

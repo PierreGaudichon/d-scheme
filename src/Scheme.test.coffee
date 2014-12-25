@@ -14,7 +14,7 @@ t1 = tio "Interprete", (i) ->
 		.interprete()
 		.out "computed", format: "str"
 
-
+###
 t1 "add simple",
 	i: "(+ 4 3)"
 	o: "7"
@@ -35,6 +35,10 @@ t1 "and simple",
 t1 "add nested (lv 1)",
 	i: "(+ 4 (+ 2 4) 3)"
 	o: "13"
+
+t1 "division simple",
+	i: "(/ 1 2)"
+	o: "0.5"
 
 t1 "lambda simple",
 	i: "(lambda (x) x)"
@@ -95,3 +99,25 @@ t1 "cons simple",
 t1 "car simple",
 	i: "(car (cons 1 2))"
 	o: "1"
+
+t1 "PI",
+	i: "pi"
+	o: Math.PI.toString()
+
+
+t1 "nil?",
+	i: "(nil? nil)"
+	o: "true"
+
+t1 "string 1",
+	i: "\"foo\""
+	o: "\"foo\""
+
+t1 "string 2",
+	i: "(define foo \"foo\")"
+	o: "\"foo\""
+
+t1 "char 1",
+	i: "#\\a"
+	o: "#\\a"
+###

@@ -11,12 +11,13 @@ class Parser
 	position:
 		line: 0
 		column: 0
+	inString: false
 
 
 	@white: [" ", "\t", "\n"]
 	@lexemBreaker: ["(", ")"]
 	@lineBreaker: ["\n"]
-	#@stringDelimiter: ["\"", "\'"]
+	@stringDelimiter: ["\"", "\'"]
 
 
 	# String -> Parser
@@ -25,20 +26,35 @@ class Parser
 		@list = []
 		@position = {line: 0, column: 0}
 		@buffer = ""
+		@inString = false
 
 
 	# -> Parser
 	parse: ->
 		for char in @string
-			if char in Parser.lexemBreaker
-				@newLexem()
-				@buffer += char
-				@newLexem()
-			else if char not in Parser.white
+			@newChar char
+
+			if char in Parser.stringDelimiter
+				@inString = !@inString
+
+			if @inString
 				@buffer += char
 			else
-				@newLexem()
-			@newChar char
+				if char in Parser.stringDelimiter
+					@buffer += char
+					@newLexem()
+				else if char in Parser.lexemBreaker
+					@newLexem()
+					@buffer += char
+					@newLexem()
+				else if char not in Parser.white
+					@buffer += char
+				else
+					@newLexem()
+
+		if @buffer.length > 0
+			@newLexem()
+
 		return @
 
 

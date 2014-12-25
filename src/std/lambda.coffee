@@ -8,6 +8,8 @@ module.exports =
 		"((lambda (x) x) 0)": "0"
 		"((lambda (x) (* 2 x)) 2)": "4"
 		"((lambda x (* 2 x)) 2)": "4"
+		"((lambda (b x) (if b x 0)) true 1)": "1"
+		"(((lambda (x) (lambda (k) (* k x))) 2) 3)": "6"
 
 	ways: ({CustomFunction, Variable, Expression}) ->
 		"(lambda (x) x)":
@@ -30,6 +32,7 @@ module.exports =
 				0: Variable
 				1: Expression
 			return: CustomFunction
+			resolve: false
 
 			fun: (ret, args, P) ->
 				params = [args[0].name]
