@@ -2,6 +2,14 @@
   "name": "d-scheme",
   "version": "0.0.1",
   "description": "A non-standart Scheme interpreter.",
+  "author": "PierreGaudichon",
+  "keywords": [
+    "scheme",
+    "interpreter",
+    "language"
+  ],
+  "license": "MIT",
+
   "main": "bin/Scheme.js",
   "bin": {
     "dscheme": "bin/dscheme"
@@ -9,13 +17,12 @@
   "scripts": {
     "install": "sh build_system.sh"
   },
-  "keywords": [
-    "scheme",
-    "interpreter",
-    "language"
-  ],
-  "author": "PierreGaudichon",
-  "license": "MIT",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PierreGaudichon/d-scheme"
+  },
+  "bugs": "https://github.com/PierreGaudichon/d-scheme/issues",
   "dependencies": {
     "async": "^0.9.0",
     "codemirror": "^4.9.0",
