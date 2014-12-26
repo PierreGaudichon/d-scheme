@@ -1,6 +1,7 @@
 fs = require "fs"
 commander = require "commander"
 {Scheme} = require "./../bin/Scheme"
+{resolve} = require "path"
 
 
 commander
@@ -23,6 +24,7 @@ if commander.documentation
 
 else if commander.args.length isnt 0
 	for filePath in commander.args
+		filePath = resolve filePath
 		out = ";; d-scheme ;; #{filePath}\n"
 
 		content = fs.readFileSync filePath, encoding: "utf-8"
@@ -40,7 +42,7 @@ else if commander.args.length isnt 0
 		out += "\n"
 
 if commander.out
-	fs.writeFile commander.out, out, (err) ->
+	fs.writeFile resolve(commander.out), out, (err) ->
 		if err then throw err
 
 else

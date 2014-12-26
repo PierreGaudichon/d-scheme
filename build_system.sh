@@ -1,10 +1,11 @@
 # Installation
 
-## Generate the `src/metaExec.coffee` using the generator `bin/meta.js`.
+## Generate the `src/metaExec.coffee` using the generator `src/meta.coffee`.
 coffee src/meta.coffee
 
 ## Delete the compiled folder to avoid garbage.
-rm -r bin/
+rm -rf bin/ doc/
+mkdir bin doc
 
 ## Compile all files under `src/` into `bin/`.
 ## The `src/metaExec.coffee` to.
@@ -29,7 +30,6 @@ chmod +x out/dscheme
 
 ## Generate the doc using the internal generator, see `src/reporter.coffee`
 out/dscheme -d -o doc/std-doc.md
-
 
 # Tests
 
