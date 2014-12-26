@@ -1,6 +1,6 @@
 fs = require "fs"
 commander = require "commander"
-{Scheme} = require "./Scheme"
+{Scheme} = require "./../bin/Scheme"
 
 
 commander

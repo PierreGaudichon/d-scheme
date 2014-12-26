@@ -16,11 +16,11 @@ coffee --compile --output bin/ src/
 # browserify bin/Scheme.js -o public/bundle.js
 
 ## Create the dscheme executable.
-mv bin/cli.js bin/dscheme
+cp bin/cli.js out/dscheme
 ## Add the bang at the beginning ot the executable.
-sed -i "1i #!/usr/bin/env node" bin/dscheme
+sed -i "1i #!/usr/bin/env node" out/dscheme
 ## Finally, make it executable.
-chmod +x bin/dscheme
+chmod +x out/dscheme
 
 
 
@@ -28,7 +28,7 @@ chmod +x bin/dscheme
 # Documentation
 
 ## Generate the doc using the internal generator, see `src/reporter.coffee`
-bin/dscheme -d -o doc/std-doc.md
+out/dscheme -d -o doc/std-doc.md
 
 
 # Tests
@@ -41,4 +41,4 @@ bin/dscheme -d -o doc/std-doc.md
 #node bin/index.js
 
 ## Should output some Scheme.
-#for file in test/*.scm; do bin/dscheme -i $file; done;
+#for file in test/*.scm; do out/dscheme -i $file; done;
