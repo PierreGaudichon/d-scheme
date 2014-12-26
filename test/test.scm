@@ -5,4 +5,5 @@
 
 (define mult2 (csum 2))
 
+"Should output 6."
 (mult2 3)

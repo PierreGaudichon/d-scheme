@@ -8,22 +8,26 @@ TODO
 
  - `Exceptions`
  - `cadr`
- - `isType?`
 
- - String
  - Comments
 
  - Proper debugging
    - store line number for errors
    - display error position as Node or Coffee
 
-Parser -> negatif numbers
 
 
+Dont use console.log in print
+Better output. Par defaut, pas d'output. Si print ou > en début de ligne, on affiche.
 
-
-
-
-
+	(* 2 3)
+	;; => rien, meme pas de ligne blanche
+	> (* 2 3)
+	;; > 6
+	(* 2 (print 3))
+	;; > 3
+	> (* 2 (print 3))
+	;; > 3
+	;; > 6
 
 

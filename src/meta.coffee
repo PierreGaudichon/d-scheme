@@ -1,26 +1,36 @@
-#fs = require "fs"
+fs = require "fs"
 glob = require "glob"
-#async = require "async"
+async = require "async"
 _ = require "lodash"
 {basename} = require "path"
 
 
-metaReq = (contener, callback) ->
-	glob contener + "/*", (err, files) ->
-		files = _ files
+metaReq = (path, contener, opt, callback) ->
+	glob "bin/" + path + "/*", (err, files) ->
+		req = _ files
 			.map (f) -> basename f, ".js"
 			.filter()
-			.map (f) -> "#{contener}[\"#{f}\"] = require \"#{contener}/#{f}\""
+			.map (f) ->
+				o = "#{contener}[\"#{f}\"] = require(\"./#{path}/#{f}\")"
+				o += "[\"#{f}\"]" if opt.klass
+				return o
 			.unshift "#{contener} = {}"
 			.push "module.exports.#{contener} = #{contener}"
-			.value()
-		callback err, files
+			.join "\n"
+			#.value()
+		callback err, req + "\n"
 
 
-metaReq "Expressions", (err, files) ->
-	if err then throw err
-	#console.log files
-
-metaReq "std", (err, files) ->
-	if err then throw err
-	console.log files
+async.waterfall [
+	(callback) ->
+		async.parallel [
+			(callback) ->
+				metaReq "Expressions", "Expressions", {klass: true}, callback
+			(callback) ->
+				metaReq "std", "std", {klass: false}, callback
+		], (err, res) ->
+			head = "# Auto generated, do not modify !\n\n"
+			callback null, head + res.join "\n"
+	(str, callback) ->
+		fs.writeFile "./src/metaExec.coffee", str, callback
+]

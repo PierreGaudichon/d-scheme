@@ -15,11 +15,20 @@ class StandardFunction extends SFunction
 
 
 	evaluate: (args, P) ->
+		#if @name is "*"
+			#console.log "HERE"
+			#cl args
+
 		# We iterate through all the possible ways of calling that function.
 		# "(lambda (x) x) : {parameters, return, fun}"
 		for doc, way of @ways
 			ok = true
 			params = []
+
+			# We resolve all parameters if necessary.
+			#console.log way.resolve
+			if way.resolve
+				args = (arg.attach(@context).resolve P for arg in args)
 
 			# We check that for each arg there is a corresponding type in
 			# way.parameter.
@@ -41,11 +50,6 @@ class StandardFunction extends SFunction
 			for {got, expected} in params
 				unless P.Type.isInstanceof expected, got
 					ok = false
-
-			# We resolve all parameters if necessary.
-			#console.log way.resolve
-			if way.resolve
-				args = (arg.attach(@context).resolve P for arg in args)
 
 			if ok
 				ret = new way.return(@parent)

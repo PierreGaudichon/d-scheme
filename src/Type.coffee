@@ -5,31 +5,7 @@
 {Real} = require "./Expressions/Real"
 {reduce, isPlainObject, isEqual, identity: id} = require "lodash"
 
-
-req = [
-	"Atom",
-	"Boolean",
-	"Char",
-	"CustomFunction",
-	"Expression",
-	"Integer",
-	"Molecule",
-	"Nil",
-	"Pair",
-	"Real",
-	"Root",
-	"SFunction",
-	"StandardFunction",
-	"String"
-	"Value",
-	"Variable",
-]
-
-
-all = {}
-for n in req
-	all[n] = require("./Expressions/#{n}")[n]
-
+all = require("./metaExec").Expressions
 
 
 module.exports.Type =
@@ -92,7 +68,6 @@ class Type
 	# Tell if the got type if an instance of expected type.
 	# String, String -> Boolean
 	# TODO : Molecule inside with plain object (see std/lambda l.6)
-
 	@isInstanceof: (expected, got) ->
 		#console.log "Type#isInstanceof"
 		#console.log expected instanceof Real

@@ -120,4 +120,16 @@ t1 "string 2",
 t1 "char 1",
 	i: "#\\a"
 	o: "#\\a"
+
+t1 "Mult with variable",
+	i:"((lambda x (* 2 x)) 2)"
+	o: "4"
+
+t1 "Mult with pi",
+	i:"((lambda x (* 2 x)) pi)"
+	o: (2*Math.PI).toString()
+
+t1 "Mult with pi 2",
+	i: "(* 2 pi)"
+	o: (2*Math.PI).toString()
 ###

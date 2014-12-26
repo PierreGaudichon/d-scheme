@@ -1,9 +1,9 @@
-glob = require "glob"
-{basename, join, dirname, relative} = require "path"
 _ = require "lodash"
 
 {StandardFunction} = require "./Expressions/StandardFunction"
 {Type} = require "./Type"
+
+{std} = require "./metaExec"
 
 
 # Define a function from E^k to E
@@ -34,27 +34,24 @@ class StdManager
 	constructor: ->
 		@all = {}
 
+
 	# Add all the content of the files under the `path`
-	# String -> void
-	folder: (path) ->
+	# Hash -> void
+	folder: (dir, hash) ->
 		feeding = _.extend Type.all(), {EkE}
-		files = glob.sync path
-		dir = dirname path
 		fold = {}
-		if @all[dir]?
-			throw new Error "TODO"
-		_ files
-			.map (f) -> relative "/", f
-			.map (f) -> join "/", dirname(f), basename(f, ".js")
-			.map (f) ->
-				name = basename f
-				req = require f
-				if _.isFunction req.ways
-					req.ways = req.ways feeding
-				if name[0] isnt "_"
-					fold[name] = req
+		for name, req of hash
+			name = req.name if req.name?
+			req.name = name
+			req.ways = req.ways feeding
+			if name[0] isnt "_"
+				fold[name] = req
 		@all[dir] = fold
 		return @
+
+
+	std: ->
+		@folder "std", std
 
 
 	each: (fun) ->
@@ -76,11 +73,10 @@ class StdManager
 			else
 				@addFunction name, req.ways, root
 
+
 	# Add a constant, the file return a {type, value}.
 	addConstant: (name, {type, value}, root) ->
-		#console.log Type.all()[type]
-		constr = Type.all()[type]
-		atom = new constr(root)
+		atom = new type(root)
 		atom.init value
 		root.define name, atom
 
@@ -91,17 +87,3 @@ class StdManager
 		f = new StandardFunction(root)
 		f.init name, ways
 		root.define name, f
-
-
-	test: ->
-		@each (name, req) =>
-
-
-	generateDoc: ->
-
-
-
-
-
-
-

@@ -5,5 +5,5 @@ module.exports =
 		"(- 4 5)": "-1"
 		"(- 3 2 1)": "0"
 
-	ways: ({EkE, Integer}) ->
-		EkE "-", Integer, (a, b) -> a - b
+	ways: ({EkE, Real}) ->
+		EkE "-", Real, (a, b) -> a - b

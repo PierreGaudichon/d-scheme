@@ -1,4 +1,4 @@
-{clone, isEqual} = require "lodash"
+{isEqual} = require "lodash"
 {Parser} = require "./Parser"
 {Lexer} = require "./Lexer"
 {Interpreter} = require "./Interpreter"
@@ -57,7 +57,7 @@ class Scheme
 
 
 	std: (path) ->
-		@manager.folder path
+		@manager.std()
 		return @
 
 
@@ -94,11 +94,13 @@ class Scheme
 					ok: isEqual result, computed
 		return @
 
+
 	doc: ->
 		@manager.each (name, req) =>
 			req.name = name
 			@documentation.push req
 		return @
+
 
 	cheatsheet: ->
 		return @
