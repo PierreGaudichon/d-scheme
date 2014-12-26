@@ -1,7 +1,7 @@
 # Installation
 
 ## Generate the `src/metaExec.coffee` using the generator `bin/meta.js`.
-node bin/meta.js
+coffee src/meta.coffee
 
 ## Delete the compiled folder to avoid garbage.
 rm -r bin/

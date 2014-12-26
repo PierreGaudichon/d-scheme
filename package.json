@@ -9,7 +9,6 @@
     "language"
   ],
   "license": "MIT",
-
   "main": "bin/Scheme.js",
   "bin": {
     "dscheme": "out/dscheme"
@@ -17,7 +16,6 @@
   "scripts": {
     "install": "sh build_system.sh"
   },
-
   "repository": {
     "type": "git",
     "url": "https://github.com/PierreGaudichon/d-scheme"
@@ -28,5 +26,8 @@
     "codemirror": "^4.9.0",
     "commander": "^2.5.1",
     "lodash": "^2.4.1"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.8.0"
   }
 }

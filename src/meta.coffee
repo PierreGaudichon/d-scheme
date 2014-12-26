@@ -6,9 +6,9 @@ _ = require "lodash"
 
 
 metaReq = (path, contener, opt, callback) ->
-	glob "bin/" + path + "/*", (err, files) ->
+	glob "src/" + path + "/*", (err, files) ->
 		req = _ files
-			.map (f) -> basename f, ".js"
+			.map (f) -> basename f, ".coffee"
 			.filter()
 			.map (f) ->
 				o = "#{contener}[\"#{f}\"] = require(\"./#{path}/#{f}\")"
