@@ -31,6 +31,7 @@ out/dscheme --cheatsheet -o doc/cheatsheet.md
 # Tests
 
 ## Should output only oks.
+# A lot of tests are missing, see the next test.
 #for file in src/*.test.coffee; do coffee $file; done;
 #node bin/Scheme.test.js
 
@@ -39,3 +40,6 @@ out/dscheme --cheatsheet -o doc/cheatsheet.md
 
 ## Should output some Scheme.
 #for file in test/*.scm; do out/dscheme -i $file; done;
+#out/dscheme -i test/quote.scm
+
+#node bin/d-math-integer.js

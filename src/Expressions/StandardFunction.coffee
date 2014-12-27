@@ -25,9 +25,8 @@ class StandardFunction extends SFunction
 
 
 	evaluate: (args, P) ->
-		#if @name is "*"
-			#console.log "HERE"
-			#cl args
+		#console.log "StandardFunction#evaluate##{@name}"
+		#cl args
 
 		# We iterate through all the possible ways of calling that function.
 		# "(lambda (x) x) : {parameters, return, fun}"
@@ -62,6 +61,7 @@ class StandardFunction extends SFunction
 					ok = false
 
 			if ok
+				args = (a.attach @context for a in args)
 				ret = new way.return(@parent)
 				ret.attach @context
 				if @isSpecial

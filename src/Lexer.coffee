@@ -44,8 +44,8 @@ class Lexer
 				exp = @createMolecule ret
 				ret.list.push exp
 			else if lexem.value is ")"
-				if ret.list.length is 0
-					return new Nil parent
+				#if ret.list.length is 0
+				#	return new Nil parent
 				return ret
 			else
 				atom = Type.infereFromLexem ret, lexem

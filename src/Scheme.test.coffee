@@ -102,7 +102,7 @@ t1 "car simple",
 
 t1 "PI",
 	i: "pi"
-	o: Math.PI.toString()
+	o: Math.PI.toString()[0..11]
 
 
 t1 "nil?",
@@ -127,10 +127,10 @@ t1 "Mult with variable",
 
 t1 "Mult with pi",
 	i:"((lambda x (* 2 x)) pi)"
-	o: (2*Math.PI).toString()
+	o: (2*Math.PI).toString()[0..10]
 
 t1 "Mult with pi 2",
 	i: "(* 2 pi)"
-	o: (2*Math.PI).toString()
+	o: (2*Math.PI).toString()[0..10]
 ###
 ###

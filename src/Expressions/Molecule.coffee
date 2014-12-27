@@ -15,6 +15,8 @@ class Molecule extends Expression
 
 
 	resolve: (P) ->
+		if @list.length is 0
+			return new Nil(@parent).attach(@context)
 		first = @list[0].resolve P
 		lasts = @list[1..]
 
@@ -26,7 +28,7 @@ class Molecule extends Expression
 			return first.attach @context
 		else
 			P.error "not function"
-			return new Nil @parent
+			return new Nil(@parent).attach @context
 
 
 	toString: ->

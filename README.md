@@ -31,3 +31,10 @@ Better output. Par defaut, pas d'output. Si print ou > en début de ligne, on af
 
 
 Make it tail recursive.
+
+Quotes
+
+ - the funtiocn is there
+ - the paerse need to be updated
+
+ Deal with the floating number precision.

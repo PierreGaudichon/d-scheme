@@ -9,7 +9,7 @@ class Variable extends Atom
 		@
 
 	resolve: (P) ->
-		@getVariable @name, P
+		@getVariable(@name, P).resolve(P).attach @context
 
 	toString: -> @name
 

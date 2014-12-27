@@ -7,8 +7,11 @@ module.exports =
 	test:
 		"(define pi 3.14)": "3.14"
 		"(define id (lambda (x) x))": "(lambda (x) x)"
-		"(define ugly (bool a) (if bool a 0))": "(lambda (bool a) (if bool a 0))"
+		"(define ugly (bool a) (if bool a 0))":
+			"(lambda (bool a) (if bool a 0))"
 		"((define ugly2 (bool a) (if bool a 0)) true 1)": "1"
+
+		#"(define (ugly3 x) x)": "(lambda (x) x)"
 
 	ways: ({Variable, Expression, CustomFunction}) ->
 		"(define name (arg ...) body)":
@@ -29,7 +32,6 @@ module.exports =
 				return f
 
 
-
 		"(define name value)":
 			parameters:
 				0: Variable
@@ -41,4 +43,23 @@ module.exports =
 				ret.define args[0].name, args[1].resolve(P)
 				return args[1]
 
+		###
+		"(define (name args ...) body)":
+			parameters:
+				0: "...": "...": Variable
+				1: Expression
+			return: Expression
+			resolve: false
+
+			fun: (ret, [a, body], P) ->
+				console.log "HERE"
+				[name, args...] = a.list
+				params = []
+				for v in args.list
+					params.push v.name
+				body = args[1]
+				f = ret.init params, body
+				ret.define name.name, f
+				return f
+		###
 
