@@ -7,7 +7,8 @@ class Quote extends Atom
 
 	init: (@expression) -> @
 
-	resolve: (P) -> @expression.resolve(P).attach @context
+	resolve: (P) ->
+		@expression.resolve(P).attach @context
 
 	toJS: -> @expression.toJS()
 

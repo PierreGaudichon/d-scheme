@@ -15,9 +15,9 @@ class Parser
 
 
 	@white: [" ", "\t", "\n"]
-	@lexemBreaker: ["(", ")"]
+	@lexemBreaker: ["(", ")", "'", ","]
 	@lineBreaker: ["\n"]
-	@stringDelimiter: ["\"", "\'"]
+	@stringDelimiter: ["\""]
 
 
 	# String -> Parser

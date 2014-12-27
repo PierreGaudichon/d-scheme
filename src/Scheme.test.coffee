@@ -1,5 +1,6 @@
 {Scheme} = require "./Scheme"
 {tio} = require "./tio"
+{cl} = require "./cl"
 
 
 programm = new Scheme()
@@ -13,6 +14,19 @@ t1 = tio "Interprete", (i) ->
 		.lexe()
 		.interprete()
 		.out "computed", format: "str"
+
+###
+programm
+	.in "str", "'(+ 4 3)"
+	.parse()
+	.lexe()
+	.interprete()
+
+console.log programm.out "lexems", format: "raw"
+cl programm.out "root", format: "json"
+cl programm.out "computed", format: "str"
+###
+
 
 
 t1 "add simple",
@@ -132,5 +146,22 @@ t1 "Mult with pi",
 t1 "Mult with pi 2",
 	i: "(* 2 pi)"
 	o: (2*Math.PI).toString()[0..10]
+
+t1 "unquote 1",
+	i: "(unquote (quote 1))"
+	o: "1"
+
+t1 "quote 1",
+	i: "'1"
+	o: "1"
+
+t1 "unquote 2",
+	i: ",(quote 1)"
+	o: "1"
+
+t1 "unquote 3",
+	i: ",'1"
+	o: "1"
+
 ###
 ###
