@@ -10,7 +10,7 @@ class StandardFunction extends SFunction
 	special: false
 
 	init: (@name, @ways) ->
-		#@special = false
+		@special = false
 		@
 
 

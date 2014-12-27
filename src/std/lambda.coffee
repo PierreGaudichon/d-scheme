@@ -10,6 +10,7 @@ module.exports =
 		"((lambda x (* 2 x)) 2)": "4"
 		"((lambda (b x) (if b x 0)) true 1)": "1"
 		"(((lambda (x) (lambda (k) (* k x))) 2) 3)": "6"
+		"((lambda (x) (* 2 x)) 2) (+ 0 x)": "4\nnil"
 
 	ways: ({CustomFunction, Variable, Expression}) ->
 		"(lambda (x) x)":

@@ -23,13 +23,9 @@ sed -i "1i #!/usr/bin/env node" out/dscheme
 ## Finally, make it executable.
 chmod +x out/dscheme
 
-
-
-
-# Documentation
-
 ## Generate the doc using the internal generator, see `src/reporter.coffee`
 out/dscheme -d -o doc/std-doc.md
+
 
 # Tests
 
@@ -38,7 +34,7 @@ out/dscheme -d -o doc/std-doc.md
 #node bin/Scheme.test.js
 
 ## Should output only an empty list : `[]`.
-#node bin/index.js
+node bin/index.js
 
 ## Should output some Scheme.
 #for file in test/*.scm; do out/dscheme -i $file; done;

@@ -23,6 +23,20 @@ EkE = (name, type, fun) ->
 	return r
 
 
+# Define a function from E to E
+# E is a type
+# Use for cos, sin, sqrt, ...
+EtE = (name, type, fun) ->
+	r = {}
+	r["(#{name} a)"] =
+		parameters:
+			0: type
+		return: type
+		resolve: true
+
+		fun: (ret, [a], P) ->
+			ret.init fun a.toJS()
+	return r
 
 
 module.exports.StdManager =
@@ -38,7 +52,7 @@ class StdManager
 	# Add all the content of the files under the `path`
 	# Hash -> void
 	folder: (dir, hash) ->
-		feeding = _.extend Type.all(), {EkE}
+		feeding = _.extend Type.all(), {EkE, EtE}
 		fold = {}
 		for name, req of hash
 			name = req.name if req.name?

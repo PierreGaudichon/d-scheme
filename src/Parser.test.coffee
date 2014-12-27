@@ -1,5 +1,5 @@
 {Parser} = require "./Parser"
-tio = require "./tio"
+{tio} = require "./tio"
 
 toList = (list) ->
 	(l.value for l in list)

@@ -1,5 +1,5 @@
 {Scheme} = require "./Scheme"
-tio = require "./tio"
+{tio} = require "./tio"
 
 
 programm = new Scheme()
@@ -14,7 +14,7 @@ t1 = tio "Interprete", (i) ->
 		.interprete()
 		.out "computed", format: "str"
 
-###
+
 t1 "add simple",
 	i: "(+ 4 3)"
 	o: "7"
@@ -132,4 +132,4 @@ t1 "Mult with pi",
 t1 "Mult with pi 2",
 	i: "(* 2 pi)"
 	o: (2*Math.PI).toString()
-###
+

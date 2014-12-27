@@ -1,5 +1,6 @@
 {isEqual, where} = require "lodash"
 {Scheme} = require "./Scheme"
+{regex} = require "./tio"
 
 
 programm = new Scheme()
@@ -23,5 +24,7 @@ res = programm
 
 #console.log res
 
+
+console.log Number.MIN_VALUE
 
 

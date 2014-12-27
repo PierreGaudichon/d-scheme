@@ -6,7 +6,7 @@ D-Scheme
 TODO
 ----
 
- - `Exceptions`
+ - `Exceptions`, serait utile pour sqrt
  - `cadr`
 
  - Comments

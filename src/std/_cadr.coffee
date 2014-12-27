@@ -3,7 +3,9 @@ module.exports =
 	desc: "TODO. Must not be used."
 
 	test:
-		0
+		"(card (list 1 2 3))": "(car (cdr (list 1 2 3)))"
+
+	special: /^c[ad]{2,}r$/
 
 	ways: ({Expression, Pair}) ->
 		"(car a)":
@@ -12,5 +14,5 @@ module.exports =
 			return: Expression
 			resolve: true
 
-			fun: (ret, [a], P) ->
+			fun: (ret, name, [a], P) ->
 				throw new Error "TODO"
