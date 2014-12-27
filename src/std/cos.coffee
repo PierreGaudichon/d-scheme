@@ -6,5 +6,5 @@ module.exports =
 		"(cos 0)": "1"
 		"(cos (/ pi 2))": "0"
 
-	ways: ({EtE, Real}) ->
-		EtE "cos", Real, Math.cos
+	ways: ({EtE}) ->
+		EtE "cos", Math.cos

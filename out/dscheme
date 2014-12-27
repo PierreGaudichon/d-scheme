@@ -29,7 +29,6 @@
     out = programm.doc().out("cheatsheet", {
       format: "md"
     });
-    console.log(out);
   } else if (commander.args.length !== 0) {
     _ref = commander.args;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {

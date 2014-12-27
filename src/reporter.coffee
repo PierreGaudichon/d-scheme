@@ -48,14 +48,16 @@ module.exports.reporter =
 		return out
 
 	cheatsheet: (all) ->
-		out = "Standard Library CheatSheet\n\n"
+		out = "\nStandard Library CheatSheet\n\n"
 		for {name, ways} in all
 			if ways.value?
+				out += "\t"
 				out += name + "\n"
 			else
 				for doc, way of ways
+					out += "\t"
 					out += doc + "\n"
-		return out
+		return out + "\n"
 
 
 

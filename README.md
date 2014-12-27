@@ -7,7 +7,6 @@ TODO
 ----
 
  - `Exceptions`, serait utile pour sqrt
- - `cadr`
 
  - Comments
 

@@ -25,7 +25,6 @@ if commander.documentation
 
 if commander.cheatsheet
 	out = programm.doc().out "cheatsheet", format: "md"
-	console.log out
 
 else if commander.args.length isnt 0
 	for filePath in commander.args

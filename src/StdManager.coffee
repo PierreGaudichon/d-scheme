@@ -1,6 +1,10 @@
 _ = require "lodash"
 
+{Expression} = require "./Expressions/Expression"
 {StandardFunction} = require "./Expressions/StandardFunction"
+{Boolean} = require "./Expressions/Boolean"
+{Real} = require "./Expressions/Real"
+{Nil} = require "./Expressions/Nil"
 {Type} = require "./Type"
 
 {std} = require "./metaExec"
@@ -26,16 +30,30 @@ EkE = (name, type, fun) ->
 # Define a function from E to E
 # E is a type
 # Use for cos, sin, sqrt, ...
-EtE = (name, type, fun) ->
+EtE = (name, fun) ->
 	r = {}
-	r["(#{name} a)"] =
+	r["(#{name} x)"] =
 		parameters:
-			0: type
-		return: type
+			0: Real
+		return: Real
 		resolve: true
 
 		fun: (ret, [a], P) ->
 			ret.init fun a.toJS()
+	return r
+
+# Define a function which test if an expressio n is a `type`.
+# Use for char?, string?, integer? ...
+isType = (name, type) ->
+	r = {}
+	r["(#{name} expression)"] =
+		parameters:
+			0: Expression
+		return: Boolean
+		resolve: true
+
+		fun: (ret, [a], P) ->
+			ret.init (a instanceof type) or (a instanceof Nil)
 	return r
 
 
@@ -52,7 +70,7 @@ class StdManager
 	# Add all the content of the files under the `path`
 	# Hash -> void
 	folder: (dir, hash) ->
-		feeding = _.extend Type.all(), {EkE, EtE}
+		feeding = _.extend Type.all(), {EkE, EtE, isType}
 		fold = {}
 		for name, req of hash
 			name = req.name if req.name?

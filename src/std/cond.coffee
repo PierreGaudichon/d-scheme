@@ -4,7 +4,7 @@ module.exports =
 
 	test:
 		"(cond (true 0) (true 1))": "0"
-		"(cond (false 0) (true 1)))": "1"
+		"(cond (false 0) (true 1))": "1"
 		"(cond (false 0))": "0"
 
 	ways: ({Expression, Boolean}) ->

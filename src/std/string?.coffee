@@ -9,13 +9,6 @@ module.exports =
 		"(string? 2.5)": "false"
 		"(string? nil)": "true"
 
-	ways: ({Expression, Boolean, String, Nil}) ->
-		"(string? expression)":
-			parameters:
-				0: Expression
-			return: Boolean
-			resolve: true
-
-			fun: (ret, [a], P) ->
-				ret.init (a instanceof String) or (a instanceof Nil)
+	ways: ({isType, String}) ->
+		isType "string?", String
 

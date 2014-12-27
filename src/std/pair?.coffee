@@ -8,13 +8,6 @@ module.exports =
 		"(pair? (list 1))": "true"
 		"(pair? nil)": "true"
 
-	ways: ({Expression, Boolean, Pair, Nil}) ->
-		"(pair? expression)":
-			parameters:
-				0: Expression
-			return: Boolean
-			resolve: true
-
-			fun: (ret, [a], P) ->
-				ret.init (a instanceof Pair) or (a instanceof Nil)
+	ways: ({isType, Pair}) ->
+		isType "Pair?", Pair
 

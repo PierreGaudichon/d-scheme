@@ -53,7 +53,11 @@ SFunction
 StandardFunction
 	ways: Hash
 	name: String
+	isSpecial: Boolean
+	specialRegex: Regex
+	specialName: String
 	init: (String name, Hash ways) -> @
+	special: (Regex) -> @
 	evaluate: ([Expression] args, P) -> Expression
 	toJSON
 
@@ -74,11 +78,14 @@ Variable
 Value
 	type: String
 	value: js
-	init: (String type, js value) -> @
+	init: (js value) -> @
 	resolve: -> @
 	toJS: -> js
 	toString
 	toJSON
+
+Real
+	init: (js value) -> @
 
 Pair
 	left: Expression

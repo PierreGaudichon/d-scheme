@@ -35,7 +35,7 @@ out/dscheme --cheatsheet -o doc/cheatsheet.md
 #node bin/Scheme.test.js
 
 ## Should output only an empty list : `[]`.
-#node bin/index.js
+node bin/index.js
 
 ## Should output some Scheme.
 #for file in test/*.scm; do out/dscheme -i $file; done;

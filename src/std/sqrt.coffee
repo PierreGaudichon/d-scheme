@@ -8,5 +8,5 @@ module.exports =
 		"(sqrt 9)": "3"
 		"(sqrt -1)": "NaN" # need to throw an error
 
-	ways: ({EtE, Real}) ->
-		EtE "sqrt", Real, Math.sqrt
+	ways: ({EtE}) ->
+		EtE "sqrt", Math.sqrt
