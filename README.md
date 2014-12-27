@@ -30,3 +30,4 @@ Better output. Par defaut, pas d'output. Si print ou > en début de ligne, on af
 	;; > 6
 
 
+Make it tail recursive.

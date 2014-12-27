@@ -1,4 +1,3 @@
-
 (define csum (lambda (k)
  (lambda (x)
   (* k x))))
@@ -7,3 +6,5 @@
 
 "Should output 6."
 (mult2 3)
+
+
