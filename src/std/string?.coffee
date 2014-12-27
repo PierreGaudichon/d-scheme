@@ -10,7 +10,7 @@ module.exports =
 		"(string? nil)": "true"
 
 	ways: ({Expression, Boolean, String, Nil}) ->
-		"(cons a b)":
+		"(string? expression)":
 			parameters:
 				0: Expression
 			return: Boolean

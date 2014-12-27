@@ -9,7 +9,7 @@ module.exports =
 		"(char? nil)": "true"
 
 	ways: ({Expression, Char, Boolean, Nil}) ->
-		"(cons a b)":
+		"(char? expression)":
 			parameters:
 				0: Expression
 			return: Boolean

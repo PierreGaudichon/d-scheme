@@ -7,11 +7,21 @@ module.exports.StandardFunction =
 class StandardFunction extends SFunction
 
 	ways: {}
-	special: false
+
+	isSpecial: false
+	specialRegex: /0/
+	specialName: ""
+
 
 	init: (@name, @ways) ->
-		@special = false
+		@isSpecial = false
 		@
+
+
+	special: (reg) ->
+		@isSpecial = true
+		@specialRegex = reg
+		return @
 
 
 	evaluate: (args, P) ->
@@ -54,7 +64,10 @@ class StandardFunction extends SFunction
 			if ok
 				ret = new way.return(@parent)
 				ret.attach @context
-				ret = way.fun ret, args, P
+				if @isSpecial
+					ret = way.fun ret, @specialName, args, P
+				else
+					ret = way.fun ret, args, P
 				return ret
 
 		P.error "wrong arguments"

@@ -83,13 +83,13 @@ class StdManager
 	addToContext: (root) ->
 		@each (name, req) =>
 			if req.ways.type? and req.ways.value?
-				@addConstant name, req.ways, root
+				@addConstant name, req, root
 			else
-				@addFunction name, req.ways, root
+				@addFunction name, req, root
 
 
 	# Add a constant, the file return a {type, value}.
-	addConstant: (name, {type, value}, root) ->
+	addConstant: (name, {ways: {type, value}}, root) ->
 		atom = new type(root)
 		atom.init value
 		root.define name, atom
@@ -97,7 +97,11 @@ class StdManager
 
 	# Add a function, the file return
 	# {way: {parameter, return, fun(args, P)}}
-	addFunction: (name, ways, root) ->
+	addFunction: (name, {special, ways}, root) ->
 		f = new StandardFunction(root)
 		f.init name, ways
-		root.define name, f
+		if special?
+			f.special special
+			root.define ("std-special-namespace-" + name), f
+		else
+			root.define name, f

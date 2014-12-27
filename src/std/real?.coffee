@@ -10,7 +10,7 @@ module.exports =
 		"(real? ())": "true"
 
 	ways: ({Expression, Boolean, Real, Integer, Nil}) ->
-		"(cons a b)":
+		"(real? expression)":
 			parameters:
 				0: Expression
 			return: Boolean

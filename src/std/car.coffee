@@ -8,7 +8,7 @@ module.exports =
 		"(car (cons (cons 1 2) 3))": "(1 . 2)"
 
 	ways: ({Expression, Pair}) ->
-		"(car a)":
+		"(car pair)":
 			parameters:
 				0: Pair
 			return: Expression

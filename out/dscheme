@@ -11,7 +11,7 @@
 
   resolve = require("path").resolve;
 
-  commander.version(require("./../package.json").version).usage("[options] files").option("-i --interprete", "Interprete the file.").option("-p --parse", "Parse the file.").option("-l --lexe", "Lexe the  file.").option("-o --out [file]", "Set the output file.").option("-d --documentation", "Create the documentation dor the standard library.").parse(process.argv);
+  commander.version(require("./../package.json").version).usage("[options] files").option("-i --interprete", "Interprete the file.").option("-p --parse", "Parse the file.").option("-l --lexe", "Lexe the  file.").option("-o --out [file]", "Set the output file.").option("--documentation", "Create the documentation dor the standard library.").option("--cheatsheet", "Create the CheatSheet for the standard library.").parse(process.argv);
 
   out = "";
 
@@ -23,6 +23,13 @@
     out = programm.doc().out("documentation", {
       format: "md"
     });
+  }
+
+  if (commander.cheatsheet) {
+    out = programm.doc().out("cheatsheet", {
+      format: "md"
+    });
+    console.log(out);
   } else if (commander.args.length !== 0) {
     _ref = commander.args;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {

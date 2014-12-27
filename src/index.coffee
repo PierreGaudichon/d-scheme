@@ -25,6 +25,3 @@ res = programm
 #console.log res
 
 
-console.log Number.MIN_VALUE
-
-

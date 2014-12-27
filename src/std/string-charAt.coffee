@@ -8,7 +8,7 @@ module.exports =
 		"(string-charAt \"foo\" 3)": "nil"
 
 	ways: ({String, Char, Integer, Nil}) ->
-		"(cons a b)":
+		"(string-charAt string index)":
 			parameters:
 				0: String
 				1: Integer

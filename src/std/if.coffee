@@ -7,7 +7,7 @@ module.exports =
 		"(if (or true false) (+ 4 2) (* 2 4))": "6"
 
 	ways: ({Expression, Boolean}) ->
-		"(if a b c)":
+		"(if boolean then-expression else-expression)":
 			parameters:
 				0: Boolean
 				1: Expression

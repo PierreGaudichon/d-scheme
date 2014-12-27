@@ -11,7 +11,8 @@ commander
 	.option "-p --parse", "Parse the file."
 	.option "-l --lexe", "Lexe the  file."
 	.option "-o --out [file]", "Set the output file."
-	.option "-d --documentation", "Create the documentation dor the standard library."
+	.option "--documentation", "Create the documentation dor the standard library."
+	.option "--cheatsheet", "Create the CheatSheet for the standard library."
 	.parse process.argv
 
 
@@ -21,6 +22,10 @@ programm.std "bin/std/*"
 
 if commander.documentation
 	out = programm.doc().out "documentation", format: "md"
+
+if commander.cheatsheet
+	out = programm.doc().out "cheatsheet", format: "md"
+	console.log out
 
 else if commander.args.length isnt 0
 	for filePath in commander.args

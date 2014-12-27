@@ -9,7 +9,7 @@ module.exports =
 		"(boolean? nil)": "true"
 
 	ways: ({Expression, Boolean, Nil}) ->
-		"(cons a b)":
+		"(boolean? expression)":
 			parameters:
 				0: Expression
 			return: Boolean

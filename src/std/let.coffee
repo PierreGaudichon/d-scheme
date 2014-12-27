@@ -7,7 +7,7 @@ module.exports =
 		"(let ((k 2) (fun +)) (fun k 2))": "4"
 
 	ways: ({CustomFunction, Variable, Expression}) ->
-		"(lambda (x) x)":
+		"(let ((variable value) ...) body)":
 			parameters:
 				0: "...":
 					0: Variable

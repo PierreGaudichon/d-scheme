@@ -9,7 +9,7 @@ module.exports =
 		"(string-tail nil)": "nil"
 
 	ways: ({String, Nil}) ->
-		"(cons a b)":
+		"(string-tail string)":
 			parameters:
 				0: String
 			return: String

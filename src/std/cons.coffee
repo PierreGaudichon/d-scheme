@@ -7,7 +7,7 @@ module.exports =
 		"(cons 1 (cons 2 3))": "(1 . (2 . 3))"
 
 	ways: ({Expression, Pair}) ->
-		"(cons a b)":
+		"(cons expression expression)":
 			parameters:
 				0: Expression
 				1: Expression

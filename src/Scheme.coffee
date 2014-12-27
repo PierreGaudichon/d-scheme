@@ -17,6 +17,7 @@ class Scheme
 	computed: "Root"
 	tests: []
 	documentation: []
+	sheet: []
 
 
 	constructor: ->
@@ -52,6 +53,9 @@ class Scheme
 		else if format is "md"
 			if type is "documentation"
 				return reporter.documentation o
+			if type is "cheatsheet"
+				o = @documentation
+				return reporter.cheatsheet o
 			return o.toString()
 
 
@@ -99,8 +103,4 @@ class Scheme
 		@manager.each (name, req) =>
 			req.name = name
 			@documentation.push req
-		return @
-
-
-	cheatsheet: ->
 		return @

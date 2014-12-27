@@ -8,7 +8,7 @@ module.exports =
 		#"(define a 4) (print a false)": "4\n4"
 
 	ways: ({Expression, Boolean}) ->
-		"(print a)":
+		"(print value)":
 			parameters:
 				0: Expression
 			return: Expression
@@ -18,7 +18,7 @@ module.exports =
 				console.log a.toString()
 				ret.init a
 
-		"(print a b)":
+		"(print value boolean)":
 			parameters:
 				0: Expression
 				1: Boolean
